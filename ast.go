@@ -1342,10 +1342,17 @@ func (s *SelectStatement) RewriteFields(m FieldMapper) (*SelectStatement, error)
 
 					// Make a new expression and replace the wildcard within this cloned expression.
 					call.Args[0] = &VarRef{Val: ref.Val, Type: ref.Type}
-					rwFields = append(rwFields, &Field{
-						Expr:  CloneExpr(template),
-						Alias: fmt.Sprintf("%s_%s", f.Name(), ref.Val),
-					})
+					if f.Name() == "__field__" {
+						rwFields = append(rwFields, &Field{
+							Expr:  CloneExpr(template),
+							Alias: ref.Val,
+						})
+					} else {
+						rwFields = append(rwFields, &Field{
+							Expr:  CloneExpr(template),
+							Alias: fmt.Sprintf("%s_%s", f.Name(), ref.Val),
+						})
+					}
 				}
 			case *BinaryExpr:
 				// Search for regexes or wildcards within the binary

@@ -11,9 +11,9 @@ pipeline {
         sh """
         rm -f $WORKSPACE/test-results.{log,xml}
         mkdir -p /go/src/github.com/influxdata
-        cp -a $WORKSPACE /go/src/github.com/influxdata/influxql
+        cp -a $WORKSPACE /go/src/github.com/geneanet/influxql
 
-        cd /go/src/github.com/influxdata/influxql
+        cd /go/src/github.com/geneanet/influxql
         go get -v -t
         go test -v | tee $WORKSPACE/test-results.log
         """
